@@ -1,6 +1,6 @@
-# Learning
+# News For General Awareness
 
-Personal tech notes and learnings built with [Hugo](https://gohugo.io/) and the [PaperMod](https://github.com/adityatelange/hugo-PaperMod) theme.
+Weekly collection of current affairs and news insights from major newspapers, built with [Hugo](https://gohugo.io/) and the [PaperMod](https://github.com/adityatelange/hugo-PaperMod) theme.
 
 ## Setup
 
@@ -33,22 +33,28 @@ The site will be available at `http://localhost:1313/`. Hugo watches for changes
 .
 ├── archetypes/          # Templates for new content
 ├── content/
-│   └── posts/           # Your notes go here
+│   └── posts/           # Weekly news collections go here
 ├── layouts/             # Custom template overrides
 ├── static/              # Static assets (images, files)
 ├── themes/hugo-PaperMod # Theme (git submodule)
 └── hugo.toml            # Site configuration
 ```
 
-## Adding Notes
+## Adding News Posts
 
-### Create a new post
+### Create a new weekly post
+
+Week titles and filenames are generated using a Python script:
 
 ```bash
-hugo new posts/my-note-title.md
-```
+# Generate week info for a specific date
+python3 scripts/week_title.py 2026-02-14
+# Output: Title: February 2026, Week 2
+#         Filename: 2026-02-week-2.md
 
-This creates a new file in `content/posts/` with pre-filled frontmatter.
+# Create new post
+hugo new posts/2026-02-week-2.md
+```
 
 ### Manually create a post
 
@@ -56,79 +62,87 @@ Create a markdown file in `content/posts/`:
 
 ```markdown
 +++
-title = 'My Note Title'
+title = 'January 2024, Week 3'
 date = 2024-01-15T10:00:00+05:30
 draft = false
-tags = ['topic1', 'topic2']
-summary = 'A brief description of this note'
+tags = ['politics', 'economy', 'international']
+summary = 'Key news highlights from major newspapers'
 +++
 
-Your content here...
+## Politics
+
+### Article Title
+**Source:** The Hindu / Indian Express / etc.
+**Date:** January 12, 2024
+
+Key points:
+- Main point 1
+- Main point 2
+- Main point 3
+
+## Economy
+
+[Similar format...]
 ```
 
 ### Frontmatter options
 
 | Field       | Description                                      |
 |-------------|--------------------------------------------------|
-| `title`     | Post title                                       |
+| `title`     | Post title (e.g., "Week of January 15, 2024")   |
 | `date`      | Publication date                                 |
 | `draft`     | Set to `true` to hide from production builds     |
 | `tags`      | List of tags for categorization                  |
 | `summary`   | Short description shown in post listings         |
-| `mermaid`   | Set to `true` to enable Mermaid diagrams         |
 | `ShowToc`   | Set to `false` to hide table of contents         |
 
-### Adding images
+## Workflow with Claude Code
 
-1. Create a folder with your post name in `content/posts/`:
-   ```
-   content/posts/my-note/
-   ├── index.md      # Your post content
-   └── diagram.png   # Images for this post
-   ```
+This project is optimized for use with Claude Code, which automatically processes news articles and adds them to weekly posts.
 
-2. Reference images in your markdown:
-   ```markdown
-   ![Alt text](diagram.png)
+### Simple Workflow
+
+1. **Provide Article to Claude:**
+   ```
+   Process this article:
+   [attach screenshot/image of news article]
    ```
 
-## Features
+2. **Claude automatically:**
+   - Extracts and summarizes the article (main facts + perspective/context)
+   - Determines the current week using `scripts/week_title.py`
+   - Finds existing weekly post or creates new one (format: `2026-02-week-2.md`)
+   - Adds article to the TOP of the post
+   - Updates relevant tags
+   - Saves changes
 
-- Dark/light theme toggle
-- Table of contents (auto-generated from headings)
-- Reading time estimates
-- Full-text search
-- Tag-based organization
-- Mermaid diagram support
+3. **Review and Publish:**
+   - Preview with `hugo server -D`
+   - When ready, set `draft = false` in the post frontmatter
+   - Push to GitHub to deploy
 
-### Mermaid Diagrams
+### Example Interaction
 
-To use Mermaid diagrams in a post, add `mermaid = true` to the frontmatter:
+```
+You: "Process this article"
+     [Image: Screenshot of article about renewable energy]
 
-```toml
-+++
-title = "My Post"
-mermaid = true
-+++
+Claude: [Processes and adds to current week's post: content/posts/2026-02-week-2.md]
 ```
 
-Then use standard mermaid code blocks:
+### Manual Workflow (Alternative)
 
-~~~markdown
-```mermaid
-erDiagram
-    USER ||--o{ ORDER : places
-    ORDER ||--|{ LINE_ITEM : contains
-```
-~~~
-
-Supported diagram types: flowcharts, sequence diagrams, ER diagrams, class diagrams, and [more](https://mermaid.js.org/intro/).
+If you prefer to compile manually:
+1. Save article screenshots during the week
+2. Provide batch to Claude: "Process these 5 articles"
+3. Claude adds all to appropriate weekly post
+4. Review and publish
 
 ## Useful Commands
 
 ```bash
-# Create new post
-hugo new posts/my-post.md
+# Create new weekly post
+hugo new posts/week-2024-01-15.md
 
 # Start server with drafts visible
 hugo server -D
@@ -157,4 +171,3 @@ Push to `main` branch or manually trigger the workflow from the **Actions** tab.
 
 - [Hugo Documentation](https://gohugo.io/documentation/)
 - [PaperMod Wiki](https://github.com/adityatelange/hugo-PaperMod/wiki)
-- [Mermaid Diagram Syntax](https://mermaid.js.org/intro/)

@@ -1,19 +1,19 @@
-baseURL = 'https://abgnpr.github.io/learning/'
+baseURL = 'https://abgnpr.github.io/news-for-ga/'
 languageCode = 'en-us'
-title = 'Learning'
+title = 'News For General Awareness'
 theme = 'hugo-PaperMod'
 
 [params]
   defaultTheme = "auto"
   ShowReadingTime = true
-  ShowCodeCopyButtons = true
+  ShowCodeCopyButtons = false
   ShowToc = true
   ShowBreadCrumbs = true
   ShowShareButtons = false
 
 [params.homeInfoParams]
-  Title = "Tech Notes"
-  Content = "My collection of technical notes and learnings"
+  Title = "News For General Awareness"
+  Content = "Weekly collection of current affairs and news insights from major newspapers"
 
 [params.fuseOpts]
   isCaseSensitive = false
@@ -30,31 +30,24 @@ theme = 'hugo-PaperMod'
   lineNos = true
 
 [[menu.main]]
-  identifier = "menu-databases"
-  name = "Databases"
-  url = "/posts/databases/"
-  weight = 1
-
-[[menu.main]]
-  identifier = "menu-design-patterns"
-  name = "Design Patterns"
-  url = "/posts/design-patterns/"
-  weight = 2
-
-[[menu.main]]
   name = "Archives"
   url = "/archives/"
-  weight = 5
+  weight = 1
 
 [[menu.main]]
   name = "Tags"
   url = "/tags/"
-  weight = 10
+  weight = 2
 
 [[menu.main]]
   name = "Search"
   url = "/search/"
-  weight = 15
+  weight = 3
+
+[[menu.main]]
+  name = "Curation Model"
+  url = "/curation-model/"
+  weight = 4
 
 [outputs]
   home = ["HTML", "RSS", "JSON"]

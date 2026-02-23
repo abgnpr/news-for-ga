@@ -4,6 +4,7 @@ title = 'News For General Awareness'
 theme = 'hugo-PaperMod'
 
 [params]
+  author = "Abhigyan Prakash"
   defaultTheme = "auto"
   ShowReadingTime = true
   ShowCodeCopyButtons = false

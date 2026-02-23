@@ -59,6 +59,8 @@ New articles are added at the **TOP** of the post (after frontmatter). Older art
 ```markdown
 ### [Article Title - derived from content]
 
+`High` | RBI & Monetary Policy
+
 [Single comprehensive paragraph with ALL key facts. See processing rules below.]
 
 **Perspective & Context:**
@@ -71,12 +73,39 @@ New articles are added at the **TOP** of the post (after frontmatter). Older art
 ---
 ```
 
+The relevance line uses the format: `` `High` | Category Name ``. Use `High`, `Medium`, or `Low` as determined in Step 0. The category comes from the curation model.
+
 ### Tags
 
 Use consistent, lowercase tags as relevant:
 - `politics`, `economy`, `international`, `environment`, `science`, `technology`
 - `agriculture`, `defense`, `foreign-policy`, `judiciary`, `healthcare`, `education`
 - `finance`, `infrastructure`, `energy`, `trade`, `renewable-energy`
+
+## Target Audience
+
+These GA notes are for **banking and RBI Grade B exam preparation** (IBPS, SBI PO/Clerk, RBI Grade B, NABARD, SEBI Grade A, etc.). Every article must be evaluated against the curation model before processing.
+
+## Article Relevance Check (Step 0)
+
+Before processing any article, assess its relevance against the curation model (`content/curation-model.md`):
+
+| Category | Weight | Examples |
+|---|---|---|
+| RBI & Monetary Policy | ~25% | Rate decisions, liquidity ops, regulatory circulars, forex management |
+| Banking Sector | ~20% | Credit growth, NPAs, banking regulations, digital payments |
+| Inflation & GDP | ~15% | CPI/WPI data, GDP estimates, IIP, macro indicators |
+| Budget & Government Policy | ~15% | Budget provisions, fiscal deficit, tax policy, subsidy reforms |
+| Reports & Indices | ~10% | IMF/World Bank reports, PMI, economic surveys |
+| Global Economy | ~10% | Fed/ECB actions, global trade, commodity prices, events impacting India |
+| Everything Else | ~5% | Science, defence, judiciary, environment — only if high GA value |
+
+**For each new article, provide a brief relevance verdict before processing:**
+- **High relevance** — directly falls in the top categories (RBI, banking, economy, fiscal policy). Process without hesitation.
+- **Medium relevance** — tangentially related (e.g., global trade developments affecting India, major government schemes, significant defence/tech with economic angle). Process but keep concise.
+- **Low relevance** — falls in "Everything Else" with weak GA/exam value (opinion pieces, lifestyle, niche science, local politics without policy substance). Advise the user to skip, with a one-line reason.
+
+If an article straddles categories, call out which parts are exam-relevant and trim the rest.
 
 ## Article Processing Workflow
 

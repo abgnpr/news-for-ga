@@ -26,7 +26,7 @@ python3 scripts/week_title.py YYYY-MM-DD
 ## Architecture
 
 - **Theme**: PaperMod installed as git submodule in `themes/hugo-PaperMod`
-- **Content**: All weekly news posts go in `content/posts/` as Markdown files
+- **Content**: Weekly GA news posts go in `content/posts/`, AI news posts go in `content/ai/`
 - **Custom layouts**: `layouts/` contains overrides for PaperMod
   - Mermaid diagram support via `_default/_markup/render-codeblock-mermaid.html` and `partials/extend_footer.html`
 - **Deployment**: GitHub Actions workflow deploys to GitHub Pages on push to `main`
@@ -73,14 +73,11 @@ New articles are added at the **TOP** of the post (after frontmatter). Older art
 ---
 ```
 
-The relevance line uses the format: `` `High` | Category Name ``. Use `High`, `Medium`, or `Low` as determined in Step 0. The category comes from the curation model.
+The relevance line uses the format: `` `High` | Category Name ``. Use `High`, `Medium`, or `Low` as determined in Step 0. The category must come from the **Categories and Tags Registry** (maintained in memory as a living list). Add new categories to the registry when articles don't fit existing ones.
 
 ### Tags
 
-Use consistent, lowercase tags as relevant:
-- `politics`, `economy`, `international`, `environment`, `science`, `technology`
-- `agriculture`, `defense`, `foreign-policy`, `judiciary`, `healthcare`, `education`
-- `finance`, `infrastructure`, `energy`, `trade`, `renewable-energy`
+Use consistent, lowercase tags from the **Categories and Tags Registry** (living list in memory). Add new tags to the registry when new topics emerge. Always lowercase.
 
 ## Target Audience
 
@@ -107,6 +104,76 @@ Before processing any article, assess its relevance against the curation model (
 
 If an article straddles categories, call out which parts are exam-relevant and trim the rest.
 
+### Exam-Centricity Filter (Revision-Friendly Notes)
+
+The ultimate goal is that when the user revises these notes, **every article earns its place**. Data points that have no realistic exam value are noise and dilute revision efficiency. Apply this filter ruthlessly:
+
+**The litmus test:** "Can I frame a multiple-choice question from this article that could appear in RBI Grade B / IBPS / NABARD / SEBI Grade A?"
+
+- If **yes** — process it. Examples: "RBI issued draft directions on X", "India's FPI outflows reached ₹X in March", "SEBI expanded EBP to include REITs/InvITs".
+- If **maybe, but only as background context** — don't give it a standalone entry. Fold the exam-testable fact (1-2 lines) into a related article's Perspective & Context section instead.
+- If **no** — skip it entirely, even if it's interesting journalism.
+
+**Common traps to avoid:**
+- **Foreign news without India impact:** US/EU/China policy is relevant only if the article explicitly connects it to Indian trade, markets, or policy. "US releases oil from SPR" alone is not exam material; "India secures LPG passage through Hormuz" is.
+- **Market commentary masquerading as news:** Analyst opinions, "markets may fall further", "investors should stay cautious" — these are PF-section material at best, never GA.
+- **Narrative-heavy reporting with thin facts:** Long-form journalism that tells a story but contains only 1-2 exam-testable facts should be reduced to those facts, not processed as a full article.
+- **Routine operational updates:** Standard auctions, minor MoU signings, incremental corporate moves — skip unless they signal a policy shift.
+
+### Article Selection from Newspaper Pages (Scanning Mode)
+
+When the user shares a full newspaper page (image) and asks which articles are worth picking:
+
+**Two-pass selection process:**
+
+1. **Headline scan (Pass 1):** From the page, shortlist articles that *could* be relevant based on headlines. Be honest about uncertainty — a headline alone can mislead. Present the shortlist with preliminary relevance grades and a one-line rationale for each.
+
+2. **AI/Energy/Personal Finance check (Pass 1.5):** For articles graded Low for exams, check if they are primarily about AI/ML, energy, or personal finance/investing. If so, flag them separately as candidates for the respective section and ask the user if they want to add them. Format: `→ AI section?`, `→ Energy section?`, or `→ Personal Finance?` next to the article in the scan table.
+
+3. **Full-text reassessment (Pass 2):** When the user provides the full article text, **re-evaluate relevance critically** before processing. The initial headline-based pick is a suggestion, not a commitment. Upgrade or downgrade freely based on actual content.
+
+**Selection quality filters — apply at both passes:**
+
+- **Concrete vs speculative:** Prefer articles reporting concrete actions (policy announcements, regulatory circulars, signed deals, published data) over speculative/forward-looking pieces. Headlines with "may", "eyeing", "could", "likely", "plans to" signal speculation — flag these and apply stricter scrutiny. Process speculative articles only if the topic itself is high-priority (RBI, banking, major trade policy).
+- **Exam-testable facts:** Ask "Could this realistically appear as a question in RBI Grade B / IBPS / NABARD?" If the answer is weak, downgrade. Exams test: policy rates, regulatory actions, scheme names, data releases (CPI, GDP, IIP, PMI), international agreements, institutional reports. They rarely test: quarterly corporate profit aggregates, routine auctions, minor corporate transactions, niche technical standards.
+- **India-centricity:** Foreign company/bank news without a meaningful India angle is almost always Low. Foreign policy or global trade is relevant only when it directly impacts Indian markets, trade, or policy.
+- **Routine vs significant:** Routine government securities auctions, standard operational matters, and minor corporate deals are Low unless they signal a policy shift or are unusually large in scale.
+- **Opinion vs reportage:** Op-eds, industry body wishlists, and analyst commentary are generally Low unless they reference concrete policy proposals or data. Reportage of actual events/decisions is preferred.
+
+## Article Routing (Step 0.5)
+
+After the relevance check, determine where the article belongs:
+
+- **Route to `content/ai/`** if the article is **primarily about AI/ML**: model releases, AI policy/regulation, AI products, AI research breakthroughs, AI industry moves (funding, acquisitions, partnerships centered on AI).
+- **Route to `content/energy/`** if the article is **primarily about energy**: power generation, renewable energy, oil & gas, energy policy, grid infrastructure, energy transition, nuclear energy, energy deals, global energy markets.
+- **Route to `content/personal-finance/`** if the article is **primarily about personal finance/investing**: MF performance data, NFO analysis, sector/market outlooks, portfolio strategy, tax changes affecting investments (LTCG, STT, capital gains), FII/DII flow analysis, asset allocation insights, index analysis, fund comparisons, investment product reviews.
+- **Keep in `content/posts/`** if the article is a **non-AI/non-energy/non-PF topic with a minor angle** in those areas (e.g., "RBI uses AI for fraud detection" — the focus is RBI/banking, not AI itself; "Budget allocates ₹X to solar" — the focus is budget/fiscal policy, not energy; "SEBI tightens F&O rules" — the focus is regulation, not personal investing).
+
+**AI section rules:**
+- Same weekly post naming: `content/ai/2026-02-week-4.md` (use `scripts/week_title.py` as usual)
+- Same frontmatter structure and article entry format as GA posts
+- Same processing rules (main paragraph + Perspective & Context)
+- **Skip relevance grading** against the GA curation model — AI articles are in a separate section and don't need a relevance verdict
+- The relevance line in the article entry is omitted for AI posts
+- Default tags: `ai`, `technology`, plus any other relevant tags
+
+**Energy section rules:**
+- Same weekly post naming: `content/energy/2026-03-week-4.md` (use `scripts/week_title.py` as usual)
+- Same frontmatter structure and article entry format as GA posts
+- Same processing rules (main paragraph + Perspective & Context)
+- **Skip relevance grading** against the GA curation model — Energy articles are in a separate section and don't need a relevance verdict
+- The relevance line in the article entry is omitted for Energy posts
+- Default tags: `energy`, plus any other relevant tags (e.g., `renewable-energy`, `infrastructure`, `policy`)
+
+**Personal Finance section rules:**
+- Same weekly post naming: `content/personal-finance/2026-03-week-4.md` (use `scripts/week_title.py` as usual)
+- Same frontmatter structure and article entry format as GA posts
+- Same processing rules (main paragraph + Key Takeaways for Portfolio Decisions)
+- **Skip relevance grading** — Personal Finance articles don't need a GA curation verdict
+- The relevance line is omitted for Personal Finance posts
+- Replace "Perspective & Context" with **"Key Takeaways for Portfolio Decisions"** — actionable bullet points focused on investment implications
+- Default tags: topic-specific (e.g., `mutual-funds`, `nfo`, `market-analysis`, `tax`, `fii-flows`)
+
 ## Article Processing Workflow
 
 ### User Input
@@ -122,7 +189,8 @@ User provides an image/screenshot of a news article (or pastes text). No source 
 ### Step 2: Determine Weekly Post
 
 - Run `python3 scripts/week_title.py YYYY-MM-DD` to get title and filename
-- Check if `content/posts/YYYY-MM-week-N.md` already exists
+- Use the target directory from Step 0.5: `content/posts/` for GA articles, `content/ai/` for AI articles
+- Check if the weekly post already exists in the target directory
 - **If exists:** Add new article at the TOP (after frontmatter)
 - **If doesn't exist:** Create new post with generated title and filename
 
@@ -157,6 +225,7 @@ User provides an image/screenshot of a news article (or pastes text). No source 
 - Should complement, not repeat, the main paragraph
 
 **Constraints:**
+- **Strictly factual — no fabrication.** Every fact, number, name, date, and claim in the processed article must come directly from the source text provided by the user. Do not infer, extrapolate, or generate facts that are not explicitly stated in the source. If context bullets reference external knowledge (e.g., scale comparisons, term definitions), they must be widely accepted and verifiable — never speculative or invented. When uncertain about a fact, omit it rather than guess.
 - No opinions, policy prescriptions, or future speculation
 - No meta commentary
 - **No political innuendos, allegations, or partisan framing.** Strip out accusations, insinuations, and party-vs-party rhetoric. Report only what happened, who did it, and the factual policy/regulatory details. If a political figure made an announcement or a law was passed, state the facts without including opposition attacks or ruling-party claims about motives.

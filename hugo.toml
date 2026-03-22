@@ -36,19 +36,34 @@ theme = 'hugo-PaperMod'
   weight = 1
 
 [[menu.main]]
-  name = "Tags"
-  url = "/tags/"
+  name = "AI"
+  url = "/ai/"
   weight = 2
 
 [[menu.main]]
-  name = "Search"
-  url = "/search/"
+  name = "Energy"
+  url = "/energy/"
   weight = 3
+
+[[menu.main]]
+  name = "Personal Finance"
+  url = "/personal-finance/"
+  weight = 4
 
 [[menu.main]]
   name = "Curation Model"
   url = "/curation-model/"
-  weight = 4
+  weight = 5
+
+[[menu.main]]
+  name = "Search"
+  url = "/search/"
+  weight = 6
+
+[[menu.main]]
+  name = "Tags"
+  url = "/tags/"
+  weight = 7
 
 [outputs]
   home = ["HTML", "RSS", "JSON"]

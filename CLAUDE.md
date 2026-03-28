@@ -120,6 +120,13 @@ The ultimate goal is that when the user revises these notes, **every article ear
 - **Narrative-heavy reporting with thin facts:** Long-form journalism that tells a story but contains only 1-2 exam-testable facts should be reduced to those facts, not processed as a full article.
 - **Routine operational updates:** Standard auctions, minor MoU signings, incremental corporate moves — skip unless they signal a policy shift.
 
+**"Everything Else" category (~5%) — apply a higher bar:** Articles in judiciary, science, defence, environment, and social legislation should only get standalone entries if they meet **at least one** of these criteria:
+- They have a direct economic/financial angle (e.g., SC ruling on banking licence, defence procurement policy with ₹ figures, environmental regulation affecting industry)
+- They involve a body/scheme that appears in banking exam syllabi (RBI, SEBI, NABARD, SIDBI, NHB, etc.)
+- They contain a specific fact likely to appear as an MCQ (treaty name + date, new body established, constitutional amendment number)
+
+If an article is interesting but fails all three, skip it — even if it's a "major" news story. Major SC judgments, new legislation, ISRO missions, and defence developments are important journalism but rarely translate into banking/RBI exam questions. Don't let news prominence override exam relevance.
+
 ### Article Selection from Newspaper Pages (Scanning Mode)
 
 When the user shares a full newspaper page (image) and asks which articles are worth picking:
@@ -128,7 +135,7 @@ When the user shares a full newspaper page (image) and asks which articles are w
 
 1. **Headline scan (Pass 1):** From the page, shortlist articles that *could* be relevant based on headlines. Be honest about uncertainty — a headline alone can mislead. Present the shortlist with preliminary relevance grades and a one-line rationale for each.
 
-2. **AI/Energy/Personal Finance check (Pass 1.5):** For articles graded Low for exams, check if they are primarily about AI/ML, energy, or personal finance/investing. If so, flag them separately as candidates for the respective section and ask the user if they want to add them. Format: `→ AI section?`, `→ Energy section?`, or `→ Personal Finance?` next to the article in the scan table.
+2. **Section check (Pass 1.5):** For articles graded Low for exams, check if they are primarily about AI/ML, energy, personal finance/investing, pharma/healthcare, science, or environment. If so, flag them separately as candidates for the respective section and ask the user if they want to add them. Format: `→ AI section?`, `→ Energy section?`, `→ Personal Finance?`, `→ Pharma section?`, `→ Science section?`, or `→ Environment section?` next to the article in the scan table.
 
 3. **Full-text reassessment (Pass 2):** When the user provides the full article text, **re-evaluate relevance critically** before processing. The initial headline-based pick is a suggestion, not a commitment. Upgrade or downgrade freely based on actual content.
 
@@ -147,7 +154,20 @@ After the relevance check, determine where the article belongs:
 - **Route to `content/ai/`** if the article is **primarily about AI/ML**: model releases, AI policy/regulation, AI products, AI research breakthroughs, AI industry moves (funding, acquisitions, partnerships centered on AI).
 - **Route to `content/energy/`** if the article is **primarily about energy**: power generation, renewable energy, oil & gas, energy policy, grid infrastructure, energy transition, nuclear energy, energy deals, global energy markets.
 - **Route to `content/personal-finance/`** if the article is **primarily about personal finance/investing**: MF performance data, NFO analysis, sector/market outlooks, portfolio strategy, tax changes affecting investments (LTCG, STT, capital gains), FII/DII flow analysis, asset allocation insights, index analysis, fund comparisons, investment product reviews.
-- **Keep in `content/posts/`** if the article is a **non-AI/non-energy/non-PF topic with a minor angle** in those areas (e.g., "RBI uses AI for fraud detection" — the focus is RBI/banking, not AI itself; "Budget allocates ₹X to solar" — the focus is budget/fiscal policy, not energy; "SEBI tightens F&O rules" — the focus is regulation, not personal investing).
+- **Route to `content/pharma/`** if the article is **primarily about pharma & healthcare**: drug launches, patent expiries, DCGI approvals, drug pricing, pharma industry moves, clinical trials, pharmaceutical policy/regulation, generic drug competition, healthcare infrastructure, medical devices, pharma trade.
+- **Route to `content/science/`** if the article is **primarily about science & technology**: space missions (ISRO, NASA, ESA), physics breakthroughs, medical/health research, biology, chemistry, engineering milestones, scientific discoveries, research publications.
+- **Route to `content/environment/`** if the article is **primarily about environment**: pollution, climate change impacts, ecology, biodiversity, conservation, wildlife, environmental regulations, water resources, deforestation, marine ecosystems, waste management.
+- **Keep in `content/posts/`** if the article is a **non-AI/non-energy/non-PF/non-science/non-environment/non-pharma topic with a minor angle** in those areas. The section posts (AI, energy, etc.) are **not exam-focused** — only `content/posts/` is curated for banking/RBI exam preparation per the curation model. So any article with exam-testable fiscal, regulatory, or policy substance belongs in `content/posts/`, even if the subject matter touches energy, pharma, etc.
+
+**Routing principle:** Ask "What is the article primarily *about*?" — the policy action, or the sector? If the government is the actor and the substance is tax/fiscal/regulatory, it stays in posts. If the sector dynamics are the focus, it goes to the section.
+
+**Examples of articles that stay in `content/posts/` despite sector overlap:**
+  - "Centre cuts excise duty on petrol/diesel by ₹10" — the focus is fiscal policy (SAED, devolution pool, revenue loss), not energy markets
+  - "Budget allocates ₹X to solar" — the focus is budget/fiscal policy, not energy
+  - "RBI uses AI for fraud detection" — the focus is RBI/banking, not AI
+  - "SEBI tightens F&O rules" — the focus is regulation, not personal investing
+  - "Govt caps drug prices" — the focus is price control policy, not pharma industry
+  - "SC ruling on environmental clearance for mining" — if the focus is the legal/regulatory action with economic implications, not ecology
 
 **AI section rules:**
 - Same weekly post naming: `content/ai/2026-02-week-4.md` (use `scripts/week_title.py` as usual)
@@ -164,6 +184,30 @@ After the relevance check, determine where the article belongs:
 - **Skip relevance grading** against the GA curation model — Energy articles are in a separate section and don't need a relevance verdict
 - The relevance line in the article entry is omitted for Energy posts
 - Default tags: `energy`, plus any other relevant tags (e.g., `renewable-energy`, `infrastructure`, `policy`)
+
+**Science section rules:**
+- Same weekly post naming: `content/science/2026-03-week-4.md` (use `scripts/week_title.py` as usual)
+- Same frontmatter structure and article entry format as GA posts
+- Same processing rules (main paragraph + Perspective & Context)
+- **Skip relevance grading** against the GA curation model — Science articles are in a separate section and don't need a relevance verdict
+- The relevance line in the article entry is omitted for Science posts
+- Default tags: `science`, plus any other relevant tags (e.g., `physics`, `space`, `health`, `biology`, `cern`)
+
+**Environment section rules:**
+- Same weekly post naming: `content/environment/2026-03-week-4.md` (use `scripts/week_title.py` as usual)
+- Same frontmatter structure and article entry format as GA posts
+- Same processing rules (main paragraph + Perspective & Context)
+- **Skip relevance grading** against the GA curation model — Environment articles are in a separate section and don't need a relevance verdict
+- The relevance line in the article entry is omitted for Environment posts
+- Default tags: `environment`, plus any other relevant tags (e.g., `pollution`, `climate`, `biodiversity`, `conservation`, `water`)
+
+**Pharma section rules:**
+- Same weekly post naming: `content/pharma/2026-03-week-4.md` (use `scripts/week_title.py` as usual)
+- Same frontmatter structure and article entry format as GA posts
+- Same processing rules (main paragraph + Perspective & Context)
+- **Skip relevance grading** against the GA curation model — Pharma articles are in a separate section and don't need a relevance verdict
+- The relevance line in the article entry is omitted for Pharma posts
+- Default tags: `pharma`, plus any other relevant tags (e.g., `generics`, `drug-pricing`, `dcgi`, `patents`, `healthcare`)
 
 **Personal Finance section rules:**
 - Same weekly post naming: `content/personal-finance/2026-03-week-4.md` (use `scripts/week_title.py` as usual)
